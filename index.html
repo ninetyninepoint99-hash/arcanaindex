@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Arcana Codex</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel&family=IM+Fell+English&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#0d0c0a;
+  overflow:hidden;
+  font-family:'IM Fell English', serif;
+}
+
+/* หมอกเคลื่อนไหว */
+body::before{
+  content:"";
+  position:fixed;
+  width:200%;
+  height:200%;
+  background:url("https://www.transparenttextures.com/patterns/foggy-birds.png");
+  opacity:0.08;
+  animation: drift 60s linear infinite;
+}
+@keyframes drift{
+  from{transform:translate(0,0);}
+  to{transform:translate(-25%, -25%);}
+}
+
+.container{
+  position:relative;
+  width:360px;
+  margin:80px auto;
+  padding:35px;
+  background:#efe5cf;
+  border:6px double #6e5427;
+  box-shadow:0 0 60px rgba(0,0,0,0.8);
+  text-align:center;
+}
+
+h1{
+  font-family:'Cinzel', serif;
+  letter-spacing:2px;
+  color:#3a2c14;
+}
+
+.row{
+  margin:14px 0;
+}
+
+input{
+  width:60px;
+  padding:8px;
+  border:1px solid #6e5427;
+  background:#fffdf6;
+  text-align:center;
+  font-size:18px;
+}
+
+.check{
+  margin-left:8px;
+  font-size:18px;
+}
+
+.correct{ color:#1f7a1f; }
+.wrong{ color:#a32020; }
+
+/* ข้อความปลดล็อก */
+#final{
+  margin-top:25px;
+  font-size:20px;
+  color:#2e2412;
+  opacity:0;
+  transform:translateY(10px);
+  transition:1.5s;
+  text-shadow:0 0 8px rgba(255,215,120,0.4);
+}
+
+/* เรืองแสงเมื่อเปิด */
+.glow{
+  animation: glow 2s ease-in-out infinite alternate;
+}
+@keyframes glow{
+  from{ text-shadow:0 0 5px rgba(255,215,120,0.3);}
+  to{ text-shadow:0 0 18px rgba(255,215,120,0.9);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>ARCANA CODEX</h1>
+  <p>บันทึกตัวเลขจากไพ่โบราณ</p>
+
+  <div class="row">
+    I <input id="a1" oninput="check(1)">
+    <span id="c1" class="check"></span>
+  </div>
+
+  <div class="row">
+    II <input id="a2" oninput="check(2)">
+    <span id="c2" class="check"></span>
+  </div>
+
+  <div class="row">
+    III <input id="a3" oninput="check(3)">
+    <span id="c3" class="check"></span>
+  </div>
+
+  <div class="row">
+    IV <input id="a4" oninput="check(4)">
+    <span id="c4" class="check"></span>
+  </div>
+
+  <div id="final">
+    ตัวเลขคือกุญแจ<br>
+    จงเรียงมันตามลำดับตัวอักษร<br>
+    แล้วเสียงของมันจะเผยความจริง
+  </div>
+</div>
+
+<script>
+const answers = {
+  1: "18",
+  2: "3",
+  3: "19",
+  4: "2"
+};
+
+function check(n){
+  const input = document.getElementById("a"+n).value.trim();
+  const mark = document.getElementById("c"+n);
+
+  if(input === answers[n]){
+    mark.innerHTML = "✓";
+    mark.className = "check correct";
+  } else if(input === ""){
+    mark.innerHTML = "";
+  } else {
+    mark.innerHTML = "✗";
+    mark.className = "check wrong";
+  }
+
+  checkFinal();
+}
+
+function checkFinal(){
+  if(
+    document.getElementById("a1").value==="18" &&
+    document.getElementById("a2").value==="3" &&
+    document.getElementById("a3").value==="19" &&
+    document.getElementById("a4").value==="2"
+  ){
+    const final = document.getElementById("final");
+    final.style.opacity = "1";
+    final.style.transform = "translateY(0)";
+    final.classList.add("glow");
+  }
+}
+</script>
+
+</body>
+</html>
